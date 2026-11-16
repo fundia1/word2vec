@@ -1,48 +1,18 @@
-# Korean Word2Vec
+# main
 
-한글 속담 말뭉치(`proverbs.txt`)로 Skip-gram with Negative Sampling(SGNS) 모델을 학습하고, 단어 유사도와 단어 유추를 실험하는 프로젝트입니다.
+한글 속담 말뭉치를 이용한 Word2Vec 학습 및 평가 프로젝트
 
-## 파일
+### [word2vec_korean.ipynb](word2vec_korean.ipynb)
+## word2vec 학습 및 평가
 
-- `word2vec_korean.ipynb`: 형태소 분석, 전처리, SGNS 학습, 유사 단어 검색, 유추 실험
-- `proverbs.txt`: 학습에 사용하는 한글 속담 데이터
-- `proverbs.jsonl`: 원본 속담 데이터
-- `글추출.py`: 원본 데이터에서 속담을 추출하는 스크립트
+- `word2vec_korean.ipynb`에서 한글 형태소 분석과 전처리를 수행합니다.
+- Skip-gram with Negative Sampling(SGNS) 모델을 학습합니다.
+- 단어 유사도와 단어 유추를 평가합니다.
 
-## 실행 방법
+## 데이터 및 코드 출처
 
-1. `word2vec_korean.ipynb`를 Jupyter Notebook이나 VS Code에서 엽니다.
-2. 셀을 위에서부터 순서대로 실행합니다.
-3. `skipgram-final` 셀에서 SGNS 모델을 학습합니다.
-4. 유사도 셀에서 `꽃`, `개`와 가까운 단어를 확인합니다.
-5. `analogy-final` 셀에서 단어 유추를 실행합니다.
-
-```python
-analogy('산', '꽃', '바다', word_to_id, id_to_word, word_vecs)
-```
-
-이 연산은 `꽃 - 산 + 바다` 벡터와 가까운 단어를 찾습니다.
-
-## 전처리
-
-Kiwi 형태소 분석기를 사용하며 일반 명사, 고유 명사, 동사, 형용사, 부사, 관형사, 수사를 학습 대상으로 사용합니다.
-
-동사와 형용사는 Kiwi가 반환하는 어간을 사용합니다. 따라서 `피다`는 `피-`, `지다`는 `지-`처럼 저장됩니다. 속담마다 문맥을 독립적으로 처리하여 서로 다른 속담의 경계가 학습에 섞이지 않도록 했습니다.
-
-## 모델
-
-Skip-gram은 중심 단어로 주변 단어를 예측합니다. 출력층은 Negative Sampling을 사용하며, 부정 샘플링 분포는 단어 빈도의 `0.75` 제곱을 사용합니다.
-
-모델 구조와 학습 코드는 `deep_learning_from_scratch2/ch04`의 구현을 참고해 노트북 안에 직접 작성되어 있습니다. 별도의 프로젝트 모듈 import 없이 노트북만 실행할 수 있습니다.
-
-## 결과 해석과 한계
-
-Word2Vec의 유사도는 사전적 의미가 아니라 말뭉치에서의 문맥 유사도입니다. 현재 속담 데이터는 약 1만 개의 짧은 문장으로 구성되어 있어 드물게 등장하는 단어의 벡터가 불안정할 수 있고, 관련 없는 단어가 우연히 높은 유사도를 가질 수 있습니다. `봄 : 꽃 = 가을 : ?` 같은 유추도 데이터가 부족하면 정확하지 않을 수 있습니다.
-
-더 안정적인 결과를 얻으려면 속담 외에 문학, 뉴스 등 대규모 한글 말뭉치를 추가하고 여러 학습 seed의 결과를 비교하는 것이 좋습니다.
-
-## 데이터 출처
-
-- [korean_proverbs](https://github.com/taylorsm9/korean_proverbs)
-- 국립국어원 우리말샘
+- 데이터: [`korean_proverbs`](https://github.com/taylorsm9/korean_proverbs)
+- 참고 데이터: 국립국어원 우리말샘
+- 모델 참고 코드: `deep_learning_from_scratch2/ch04`
+- with codex
 
